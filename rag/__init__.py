@@ -2,7 +2,7 @@ from langchain.document_loaders import UnstructuredFileLoader
 from langchain_community.vectorstores import FAISS
 from langchain.chains import RetrievalQA
 
-from rage.utils import *
+from rag.utils import *
 
 
 class RAG:
