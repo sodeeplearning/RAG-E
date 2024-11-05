@@ -2,7 +2,7 @@ from langchain_community.llms import Ollama
 from langchain.text_splitter import CharacterTextSplitter
 from langchain.embeddings import HuggingFaceEmbeddings
 
-from config import *
+from rage.rag.config import *
 
 
 llm = Ollama(
