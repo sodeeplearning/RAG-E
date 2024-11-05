@@ -1,6 +1,7 @@
 from gtts import gTTS
+import os
 
-from rage.tts.config import *
+from rage.config import is_slow, delete_files
 
 
 class ToMachineSpeech:
@@ -36,7 +37,7 @@ class ToMachineSpeech:
         language: str = "ru",
         slow: bool = is_slow,
         saving_path: str = "speech.mp3",
-        delete_saved_file: bool = delete_file,
+        delete_saved_file: bool = delete_files,
     ) -> bytes:
         """Get bytes of machine speech.
 
@@ -62,7 +63,7 @@ class ToMachineSpeech:
         language: str = "ru",
         slow: bool = False,
         saving_path: str = "speech.mp3",
-        delete_saved_file: bool = delete_file,
+        delete_saved_file: bool = delete_files,
         *args,
         **kwargs
     ) -> bytes:
