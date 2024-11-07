@@ -10,7 +10,7 @@ from datetime import datetime
 from api.utils.checking import is_bot
 from api.utils.path import getting_files
 from api.config import bots_data_path
-from api.models import BotIdModel, StatusModel
+from api.models import BotIdModel, StatusModel, WishesModel
 
 from api.bots_data import bots
 
@@ -51,3 +51,9 @@ async def launch_bot(body: BotIdModel) -> StatusModel:
             bots[bot_id] = RAG(users_files)
 
     return StatusModel(status=status)
+
+
+@router.post("/addwishes")
+async def add_wishes(body: WishesModel) -> StatusModel:
+    await bots[body.bot_id].update_wishes(body.wishes)
+    return StatusModel()

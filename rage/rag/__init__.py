@@ -24,13 +24,21 @@ class RAG:
 
         self.wishes = ". " + extra_wishes
 
+    async def update_wishes(self, new_wishes: str) -> None:
+        """Update wishes property.
+
+        :param new_wishes: New wishes for prompts.
+        """
+        self.wishes = ". " + new_wishes
+
     async def ask(self, question: str) -> str:
         """Ask question about database.
 
         :param question: Question to a model.
         :return: Model's answer.
         """
-        return await self.qa_chain.ainvoke({"query": question + self.wishes})["result"]
+        response = self.qa_chain.invoke({"query": question + self.wishes})
+        return response["result"]
 
     async def __call__(self, question: str, *args, **kwargs):
         """Ask question about database.
