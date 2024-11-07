@@ -1,2 +1,2 @@
-from path import *
-from checking import *
+from .path import *
+from .checking import *

@@ -4,10 +4,11 @@ import os
 from . import prompting
 from . import creating
 
-from ..config import *
-from ..utils.path import *
+from api.config import bots_data_path
+from api.utils.path import *
+from api.bots_data import bots
 
-from ...rage.rag import RAG
+from rage.rag import RAG
 
 
 router = APIRouter()
@@ -15,14 +16,13 @@ router = APIRouter()
 router.include_router(prompting.router)
 router.include_router(creating.router)
 
-bots = dict()
 data_path = bots_data_path
 
 
 @router.on_event("startup")
 async def startup_event():
     if os.path.isdir(data_path):
-        user_ids = os.listdir()
+        user_ids = os.listdir(bots_data_path)
         for current_user_id in user_ids:
             user_data_paths = getting_files(os.path.join(data_path, current_user_id))
             bots[current_user_id] = RAG(user_data_paths)
