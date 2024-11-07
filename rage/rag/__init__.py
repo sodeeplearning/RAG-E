@@ -2,7 +2,7 @@ from langchain_community.document_loaders import UnstructuredFileLoader
 from langchain_community.vectorstores import FAISS
 from langchain.chains import RetrievalQA
 
-from rage.rag.utils import *
+from .utils import *
 
 
 class RAG:
@@ -24,18 +24,18 @@ class RAG:
 
         self.wishes = ". " + extra_wishes
 
-    def ask(self, question: str) -> str:
+    async def ask(self, question: str) -> str:
         """Ask question about database.
 
         :param question: Question to a model.
         :return: Model's answer.
         """
-        return self.qa_chain.invoke({"query": question + self.wishes})["result"]
+        return await self.qa_chain.ainvoke({"query": question + self.wishes})["result"]
 
-    def __call__(self, question: str, *args, **kwargs):
+    async def __call__(self, question: str, *args, **kwargs):
         """Ask question about database.
 
         :param question: Question to a model.
         :return: Model's answer.
         """
-        return self.ask(question=question)
+        return await self.ask(question=question)

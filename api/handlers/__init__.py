@@ -1,11 +1,35 @@
 from fastapi import APIRouter
+import os
 
-from . import checking
 from . import prompting
-from . import transfering
+from . import creating
+
+from ..config import *
+from ..utils.path import *
+
+from ...rage.rag import RAG
+
 
 router = APIRouter()
 
-router.include_router(checking.router)
 router.include_router(prompting.router)
-router.include_router(transfering.router)
+router.include_router(creating.router)
+
+bots = dict()
+data_path = bots_data_path
+
+
+@router.on_event("startup")
+async def startup_event():
+    if os.path.isdir(data_path):
+        user_ids = os.listdir()
+        for current_user_id in user_ids:
+            user_data_paths = getting_files(os.path.join(data_path, current_user_id))
+            bots[current_user_id] = RAG(user_data_paths)
+    else:
+        os.mkdir(data_path)
+
+
+@router.get("/")
+async def start():
+    return {"available_users": list(bots.keys())}

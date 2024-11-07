@@ -2,7 +2,7 @@ from langchain_community.llms import Ollama
 from langchain.text_splitter import CharacterTextSplitter
 from langchain.embeddings import HuggingFaceEmbeddings
 
-from rage.config import llm_name, temperature, chunk_size, chunk_overlap
+from ..config import llm_name, temperature, chunk_size, chunk_overlap
 
 
 llm = Ollama(
