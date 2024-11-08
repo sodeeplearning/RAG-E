@@ -1,2 +1,2 @@
-from .path import *
+from .files import *
 from .checking import *

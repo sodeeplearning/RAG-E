@@ -50,3 +50,11 @@ class VideoToTextFile:
         extracted_text = self.stt(audio_saving_path)
 
         write_file(extracted_text, text_saving_path)
+
+    def __call__(self, video_file: str, text_saving_path: str = None, *args, **kwargs):
+        """Get text file from video's text.
+
+        :param video_file: Path to a video file.
+        :param text_saving_path: Path to a saving file.
+        """
+        self.video_to_text_file(video_file, text_saving_path)

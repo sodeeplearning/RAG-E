@@ -13,9 +13,13 @@ class WishesModel(BotIdModel):
     wishes: str
 
 
-class PromptModel(BotIdModel):
+class PromptTextModel(BotIdModel):
     prompt: str
 
 
 class TextModel(StatusModel):
     text: str
+
+
+class CreatingBotResponseModel(BotIdModel):
+    status: str = "success"

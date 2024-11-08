@@ -7,11 +7,12 @@ from hashlib import sha256
 from datetime import datetime
 
 
-from api.utils.checking import is_bot
-from api.utils.path import getting_files
+from api.utils.checking import is_bot, is_customer
+from api.utils.files import getting_files
 from api.config import bots_data_path
-from api.models import BotIdModel, StatusModel, WishesModel
+from api.models import BotIdModel, StatusModel, WishesModel, CreatingBotResponseModel
 
+from api.status_messages import not_customer, bot_not_found, bot_launched_before
 from api.bots_data import bots
 
 from rage.rag import RAG
@@ -21,18 +22,21 @@ router = APIRouter()
 
 
 @router.post("/createbot")
-async def create_bot(files: List[UploadFile]) -> BotIdModel:
-    bot_id = sha256(str(datetime.now()).encode("utf-8")).hexdigest()
-    bot_dir = join(bots_data_path, bot_id)
-    os.mkdir(bot_dir)
+async def create_bot(user_id: str, files: List[UploadFile]) -> CreatingBotResponseModel:
+    if is_customer(user_id):
+        bot_id = sha256(str(datetime.now()).encode("utf-8")).hexdigest()
+        bot_dir = join(bots_data_path, bot_id)
+        os.mkdir(bot_dir)
 
-    for current_file in files:
-        content = await current_file.read()
-        saving_path = join(bot_dir, current_file.filename)
-        with open(saving_path, "wb") as saving_file:
-            saving_file.write(content)
+        for current_file in files:
+            content = await current_file.read()
+            saving_path = join(bot_dir, current_file.filename)
+            with open(saving_path, "wb") as saving_file:
+                saving_file.write(content)
 
-    return BotIdModel(bot_id=bot_id)
+        return CreatingBotResponseModel(bot_id=bot_id)
+
+    return CreatingBotResponseModel(bot_id=None, status=not_customer)
 
 
 @router.post("/launchbot")
@@ -41,10 +45,10 @@ async def launch_bot(body: BotIdModel) -> StatusModel:
     status = "success"
 
     if bot_id in bots:
-        status = "Error! Bot has been launched before."
+        status = bot_launched_before
     else:
         if is_bot(bot_id):
-            status = "Error! Bot id has not found."
+            status = bot_not_found
         else:
             users_path = join(bots_data_path, bot_id)
             users_files = getting_files(users_path)
@@ -55,5 +59,11 @@ async def launch_bot(body: BotIdModel) -> StatusModel:
 
 @router.post("/addwishes")
 async def add_wishes(body: WishesModel) -> StatusModel:
-    await bots[body.bot_id].update_wishes(body.wishes)
-    return StatusModel()
+    status = "success"
+
+    if is_bot(body.bot_id):
+        await bots[body.bot_id].update_wishes(body.wishes)
+    else:
+        status = bot_not_found
+
+    return StatusModel(status=status)
