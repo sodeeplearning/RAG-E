@@ -47,7 +47,7 @@ async def launch_bot(body: BotIdModel) -> StatusModel:
     if bot_id in bots:
         status = bot_launched_before
     else:
-        if is_bot(bot_id):
+        if not is_bot(bot_id):
             status = bot_not_found
         else:
             users_path = join(bots_data_path, bot_id)
