@@ -9,3 +9,5 @@ sentence-transformers==3.0.1
 gtts==2.5.3
 moviepy==2.0.0.dev2
 tf-keras==2.18.0
+torch==2.2.2
+torchaudio==2.2.2

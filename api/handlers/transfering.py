@@ -19,7 +19,7 @@ router = APIRouter()
 vtt_model = VideoToTextFile()
 
 
-@router.post("/uploadvideos")
+@router.post("/upload_videos")
 async def upload_video(bot_id: str, files: List[UploadFile]) -> StatusModel:
     bot_dir = join(bots_data_path, bot_id)
     status = "success"
@@ -43,7 +43,7 @@ async def upload_video(bot_id: str, files: List[UploadFile]) -> StatusModel:
     return StatusModel(status=status)
 
 
-@router.post("/adddata")
+@router.post("/add_data")
 async def add_data(bot_id: str, files: List[UploadFile]) -> StatusModel:
     bot_dir = join(bots_data_path, bot_id)
     status = "success"
@@ -62,7 +62,7 @@ async def add_data(bot_id: str, files: List[UploadFile]) -> StatusModel:
     return StatusModel(status=status)
 
 
-@router.get("/getbotdata")
+@router.get("/get_bot_data")
 async def get_bot_data(bot_id: str):
     if is_bot(bot_id):
         bot_dir = join(bots_data_path, bot_id)

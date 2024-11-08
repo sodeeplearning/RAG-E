@@ -21,7 +21,7 @@ from rage.rag import RAG
 router = APIRouter()
 
 
-@router.post("/createbot")
+@router.post("/create_bot")
 async def create_bot(user_id: str, files: List[UploadFile]) -> CreatingBotResponseModel:
     if is_customer(user_id):
         bot_id = sha256(str(datetime.now()).encode("utf-8")).hexdigest()
@@ -39,7 +39,7 @@ async def create_bot(user_id: str, files: List[UploadFile]) -> CreatingBotRespon
     return CreatingBotResponseModel(bot_id=None, status=not_customer)
 
 
-@router.post("/launchbot")
+@router.post("/launch_bot")
 async def launch_bot(body: BotIdModel) -> StatusModel:
     bot_id = body.bot_id
     status = "success"
@@ -57,7 +57,7 @@ async def launch_bot(body: BotIdModel) -> StatusModel:
     return StatusModel(status=status)
 
 
-@router.post("/addwishes")
+@router.post("/add_wishes")
 async def add_wishes(body: WishesModel) -> StatusModel:
     status = "success"
 

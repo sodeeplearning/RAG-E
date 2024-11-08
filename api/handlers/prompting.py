@@ -7,15 +7,15 @@ from api.utils.checking import is_bot
 
 from api.bots_data import bots
 
-from rage.tts import ToMachineSpeech
+from rage.tts.neural import ToSpeech as Speaker
 
 
 router = APIRouter()
 
-tts_model = ToMachineSpeech()
+tts_model = Speaker()
 
 
-@router.post("/prompttext")
+@router.post("/prompt/text")
 async def prompt_text(body: PromptTextModel) -> TextModel:
     if is_bot(body.bot_id):
         model_answer = await bots[body.bot_id](body.prompt)
@@ -24,7 +24,7 @@ async def prompt_text(body: PromptTextModel) -> TextModel:
     return TextModel(text=bot_not_found, status=bot_not_found)
 
 
-@router.post("/promptvoice")
+@router.post("/prompt/voice")
 async def prompt_voice(body: PromptTextModel):
     if is_bot(body.bot_id):
         model_answer = await bots[body.bot_id](body.prompt)
