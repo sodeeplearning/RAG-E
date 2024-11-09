@@ -27,3 +27,7 @@ class CreatingBotResponseModel(BotIdModel):
 
 class DeleteStopBotModel(BotIdModel):
     user_id: str
+
+
+class UsersBotsModel(BaseModel):
+    bots_ids: list = []

@@ -5,9 +5,9 @@ from fastapi import APIRouter
 from api.config import bots_data_path
 from api.utils.checking import is_bot, is_user_bots_owner
 from api.status_messages import bot_launched_before, bot_not_found, bots_not_users
-from api.models import BotIdModel, WishesModel, StatusModel, DeleteStopBotModel
+from api.models import BotIdModel, WishesModel, StatusModel, DeleteStopBotModel, UsersBotsModel
 from api.utils.files import getting_files
-from api.bots_data import bots
+from api.bots_data import bots, users_bots
 
 from rage.rag import RAG
 
@@ -57,3 +57,12 @@ async def add_wishes(body: WishesModel) -> StatusModel:
         status = bot_not_found
 
     return StatusModel(status=status)
+
+
+@router.get("/get_users_bots")
+async def get_users_bots(user_id: str) -> UsersBotsModel:
+    bots_ids = []
+    if user_id in users_bots:
+        bots_ids = users_bots[user_id]
+
+    return UsersBotsModel(bots_ids=bots_ids)

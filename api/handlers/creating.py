@@ -13,7 +13,7 @@ from api.config import bots_data_path
 from api.models import StatusModel, CreatingBotResponseModel, DeleteStopBotModel
 
 from api.status_messages import not_customer, bot_not_found, bots_not_users
-from api.bots_data import bots
+from api.bots_data import bots, users_bots, bot_owns_to
 
 
 router = APIRouter()
@@ -23,6 +23,16 @@ router = APIRouter()
 async def create_bot(user_id: str, files: List[UploadFile]) -> CreatingBotResponseModel:
     if is_customer(user_id):
         bot_id = sha256(str(datetime.now()).encode("utf-8")).hexdigest()
+
+        # Adding bot id to users' bots database
+        if user_id in users_bots:
+            users_bots[user_id].append(bot_id)
+        else:
+            users_bots[user_id] = [bot_id]
+
+        # Updating bot_owns_to database
+        bot_owns_to[bot_id] = user_id
+
         bot_dir = join(bots_data_path, bot_id)
         os.mkdir(bot_dir)
 
@@ -43,6 +53,10 @@ async def delete_bot(body: DeleteStopBotModel) -> StatusModel:
 
     if is_bot(body.bot_id):
         if is_user_bots_owner(body.user_id, body.bot_id):
+            # Updating databases
+            users_bots[body.user_id].remove(body.bot_id)
+            del bot_owns_to[body.bot_id]
+
             bot_dir = join(bots_data_path, body.bot_id)
             if body.bot_id in bots:
                 del bots[body.bot_id]
