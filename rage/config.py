@@ -1,8 +1,6 @@
-import os
-
 # General config.
 delete_files = True
-use_gpu = os.environ.get("USE_GPU") == "1"
+use_gpu = True
 
 # RAG config
 llm_name = "owl/t-lite:latest"

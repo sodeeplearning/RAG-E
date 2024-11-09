@@ -28,7 +28,9 @@ async def upload_video(bot_id: str, files: List[UploadFile]) -> StatusModel:
         for current_file in files:
             file_name = current_file.filename
             saving_path = join(bot_dir, file_name)
-            text_saving_path = join(bot_dir, file_name)
+
+            text_file_name = file_name.split(".")[0] + ".txt"
+            text_saving_path = join(bot_dir, text_file_name)
 
             with open(saving_path, "wb") as saving_file:
                 file_content = await current_file.read()
@@ -52,9 +54,11 @@ async def add_data(bot_id: str, files: List[UploadFile]) -> StatusModel:
         for current_file in files:
             file_name = current_file.filename
             saving_path = join(bot_dir, file_name)
+
             with open(saving_path, "wb") as saving_file:
                 file_content = await current_file.read()
                 saving_file.write(file_content)
+
         bots[bot_id] = RAG(getting_files(bot_dir))
     else:
         status = bot_not_found

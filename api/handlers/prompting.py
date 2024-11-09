@@ -29,7 +29,7 @@ async def prompt_voice(body: PromptTextModel):
     if is_bot(body.bot_id):
         model_answer = await bots[body.bot_id](body.prompt)
         return Response(
-            content=tts_model.get_bytes(model_answer),
+            content=tts_model(model_answer),
             media_type="audio/wav"
         )
     return bot_not_found
