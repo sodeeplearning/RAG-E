@@ -1,5 +1,6 @@
 import os
 from os.path import join
+from shutil import rmtree
 
 from fastapi import APIRouter, UploadFile
 from typing import List
@@ -7,15 +8,12 @@ from hashlib import sha256
 from datetime import datetime
 
 
-from api.utils.checking import is_bot, is_customer
-from api.utils.files import getting_files
+from api.utils.checking import is_bot, is_customer, is_user_bots_owner
 from api.config import bots_data_path
-from api.models import BotIdModel, StatusModel, WishesModel, CreatingBotResponseModel
+from api.models import StatusModel, CreatingBotResponseModel, DeleteStopBotModel
 
-from api.status_messages import not_customer, bot_not_found, bot_launched_before
+from api.status_messages import not_customer, bot_not_found, bots_not_users
 from api.bots_data import bots
-
-from rage.rag import RAG
 
 
 router = APIRouter()
@@ -39,30 +37,18 @@ async def create_bot(user_id: str, files: List[UploadFile]) -> CreatingBotRespon
     return CreatingBotResponseModel(bot_id=None, status=not_customer)
 
 
-@router.post("/launch_bot")
-async def launch_bot(body: BotIdModel) -> StatusModel:
-    bot_id = body.bot_id
-    status = "success"
-
-    if bot_id in bots:
-        status = bot_launched_before
-    else:
-        if not is_bot(bot_id):
-            status = bot_not_found
-        else:
-            users_path = join(bots_data_path, bot_id)
-            users_files = getting_files(users_path)
-            bots[bot_id] = RAG(users_files)
-
-    return StatusModel(status=status)
-
-
-@router.post("/add_wishes")
-async def add_wishes(body: WishesModel) -> StatusModel:
+@router.delete("/delete_bot")
+async def delete_bot(body: DeleteStopBotModel) -> StatusModel:
     status = "success"
 
     if is_bot(body.bot_id):
-        await bots[body.bot_id].update_wishes(body.wishes)
+        if is_user_bots_owner(body.user_id, body.bot_id):
+            bot_dir = join(bots_data_path, body.bot_id)
+            if body.bot_id in bots:
+                del bots[body.bot_id]
+            rmtree(bot_dir)
+        else:
+            status = bots_not_users
     else:
         status = bot_not_found
 

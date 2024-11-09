@@ -23,3 +23,7 @@ class TextModel(StatusModel):
 
 class CreatingBotResponseModel(BotIdModel):
     status: str = "success"
+
+
+class DeleteStopBotModel(BotIdModel):
+    user_id: str

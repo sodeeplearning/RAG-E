@@ -4,6 +4,7 @@ import os
 from . import prompting
 from . import creating
 from . import transfering
+from . import botmanage
 
 from api.config import bots_data_path
 from api.utils.files import *
@@ -20,6 +21,7 @@ router = APIRouter()
 router.include_router(prompting.router)
 router.include_router(creating.router)
 router.include_router(transfering.router)
+router.include_router(botmanage.router)
 
 
 @router.on_event("startup")
