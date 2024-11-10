@@ -1,8 +1,13 @@
+import nltk
+
 from langchain_community.document_loaders import UnstructuredFileLoader
 from langchain_community.vectorstores import FAISS
 from langchain.chains import RetrievalQA
 
 from .utils import *
+
+nltk.download("punkt_tab")
+nltk.download("averaged_perceptron_tagger_eng")
 
 
 class RAG:

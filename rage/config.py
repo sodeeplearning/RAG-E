@@ -1,6 +1,6 @@
 # General config.
 delete_files = True
-use_gpu = True
+use_gpu = False
 
 # RAG config
 llm_name = "owl/t-lite:latest"
