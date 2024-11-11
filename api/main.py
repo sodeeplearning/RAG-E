@@ -1,11 +1,5 @@
-import subprocess
-
 from fastapi import FastAPI
 import uvicorn
-
-subprocess.run(["ollama", "serve"])
-subprocess.run(["ollama", "pull", "owl/t-lite:latest"])
-
 import handlers
 
 
