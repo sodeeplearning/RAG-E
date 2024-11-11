@@ -1,7 +1,7 @@
 import os
 import json
 
-from api.config import users_bots_path, bot_owns_to_path
+from config import users_bots_path, bot_owns_to_path
 
 
 bots = dict()

@@ -2,12 +2,12 @@ from os.path import join
 
 from fastapi import APIRouter
 
-from api.config import bots_data_path
-from api.utils.checking import is_bot, is_user_bots_owner
-from api.status_messages import bot_launched_before, bot_not_found, bots_not_users
-from api.models import BotIdModel, WishesModel, StatusModel, DeleteStopBotModel, UsersBotsModel
-from api.utils.files import getting_files
-from api.bots_data import bots, users_bots
+from config import bots_data_path
+from utils.checking import is_bot, is_user_bots_owner
+from status_messages import bot_launched_before, bot_not_found, bots_not_users
+from models import BotIdModel, WishesModel, StatusModel, DeleteStopBotModel, UsersBotsModel
+from utils.files import getting_files
+from bots_data import bots, users_bots
 
 from rage.rag import RAG
 

@@ -1,11 +1,11 @@
 from fastapi import APIRouter
 from starlette.responses import Response
 
-from api.models import PromptTextModel, TextModel
-from api.status_messages import bot_not_found
-from api.utils.checking import is_bot
+from models import PromptTextModel, TextModel
+from status_messages import bot_not_found
+from utils.checking import is_bot
 
-from api.bots_data import bots
+from bots_data import bots
 
 from rage.tts.neural import ToSpeech as Speaker
 

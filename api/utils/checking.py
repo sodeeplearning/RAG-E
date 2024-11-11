@@ -1,7 +1,7 @@
 from os import listdir
 
-from api.config import bots_data_path
-from api.bots_data import bot_owns_to
+from config import bots_data_path
+from bots_data import bot_owns_to
 
 
 def is_bot(bot_id: str) -> bool:

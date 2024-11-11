@@ -8,12 +8,12 @@ from hashlib import sha256
 from datetime import datetime
 
 
-from api.utils.checking import is_bot, is_customer, is_user_bots_owner
-from api.config import bots_data_path
-from api.models import StatusModel, CreatingBotResponseModel, DeleteStopBotModel
+from utils.checking import is_bot, is_customer, is_user_bots_owner
+from config import bots_data_path
+from models import StatusModel, CreatingBotResponseModel, DeleteStopBotModel
 
-from api.status_messages import not_customer, bot_not_found, bots_not_users
-from api.bots_data import bots, users_bots, bot_owns_to
+from status_messages import not_customer, bot_not_found, bots_not_users
+from bots_data import bots, users_bots, bot_owns_to
 
 
 router = APIRouter()

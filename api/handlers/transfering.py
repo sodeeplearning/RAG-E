@@ -2,13 +2,13 @@ from fastapi import APIRouter, UploadFile
 from typing import List
 from os.path import join
 
-from api.models import StatusModel
-from api.config import bots_data_path
-from api.status_messages import bot_not_found
-from api.utils.files import zipfiles, getting_files
-from api.utils.checking import is_bot
+from models import StatusModel
+from config import bots_data_path
+from status_messages import bot_not_found
+from utils.files import zipfiles, getting_files
+from utils.checking import is_bot
 
-from api.bots_data import bots
+from bots_data import bots
 
 from rage.rag import RAG
 from rage.vtt import VideoToTextFile

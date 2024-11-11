@@ -1,4 +1,3 @@
-import os
 import json
 
 from fastapi import APIRouter
@@ -8,9 +7,9 @@ from . import creating
 from . import transfering
 from . import botmanage
 
-from api.config import bots_data_path, users_bots_path, bot_owns_to_path
-from api.utils.files import *
-from api.bots_data import bots, users_bots, bot_owns_to
+from config import bots_data_path, users_bots_path, bot_owns_to_path
+from utils.files import *
+from bots_data import bots, users_bots, bot_owns_to
 
 from rage.rag import RAG
 
