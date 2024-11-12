@@ -11,7 +11,7 @@ from config import bots_data_path, users_bots_path, bot_owns_to_path
 from utils.files import *
 from bots_data import bots, users_bots, bot_owns_to
 
-from rage.rag import RAG
+from rage import RAG
 
 
 if not os.path.isdir(bots_data_path):

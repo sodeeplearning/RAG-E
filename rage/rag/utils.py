@@ -7,7 +7,7 @@ from rage.config import llm_name, temperature, chunk_size, chunk_overlap
 
 llm = Ollama(
     model=llm_name,
-    temperature=temperature,
+    temperature=temperature
 )
 
 text_splitter = CharacterTextSplitter(separator="/n",

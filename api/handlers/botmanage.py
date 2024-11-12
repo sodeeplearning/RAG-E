@@ -9,7 +9,7 @@ from models import BotIdModel, WishesModel, StatusModel, DeleteStopBotModel, Use
 from utils.files import getting_files
 from bots_data import bots, users_bots
 
-from rage.rag import RAG
+from rage import RAG
 
 router = APIRouter()
 

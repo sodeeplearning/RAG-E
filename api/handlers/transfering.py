@@ -10,8 +10,8 @@ from utils.checking import is_bot
 
 from bots_data import bots
 
-from rage.rag import RAG
-from rage.vtt import VideoToTextFile
+from rage import RAG
+from rage import VideoToTextFile
 
 
 router = APIRouter()

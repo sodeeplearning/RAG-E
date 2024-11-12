@@ -19,7 +19,7 @@ FROM python:3.12-slim
 
 WORKDIR /app
 
-COPY ./api/rage/requirements.txt rage-reqs.txt
+COPY ./rage/requirements.txt rage-reqs.txt
 COPY ./api/requirements.txt api-reqs.txt
 
 RUN pip3 install -r api-reqs.txt
@@ -27,6 +27,6 @@ RUN pip3 install -r rage-reqs.txt
 RUN pip3 install torch==2.2.2 torchvision==0.17.2 torchaudio==2.2.2 --index-url https://download.pytorch.org/whl/cu121
 
 COPY ./api ./api
+COPY ./rage ./api/rage
 
 CMD ["fastapi", "run", "api/main.py", "--port", "80"]
-#CMD ["python3.12", "api/main.py"]
