@@ -12,7 +12,7 @@ Start using RAG in Python:
 ```python
 from rage.rag import RAG
 
-assistant = RAG(["file1.pdf", "file2.docs", "file3.txt"])
+assistant = RAG(["file1.pdf", "file2.docx", "file3.txt"])
 print(assistant("What was in these documents?"))
 ```
 
