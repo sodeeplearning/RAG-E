@@ -31,7 +31,7 @@ async def create_bot(user_id: str, files: List[UploadFile]) -> CreatingBotRespon
             users_bots[user_id] = [bot_id]
 
         # Updating bot_owns_to database
-        bot_owns_to[bot_id] = user_id
+        bot_owns_to[bot_id] = [user_id]
 
         bot_dir = join(bots_data_path, bot_id)
         os.mkdir(bot_dir)

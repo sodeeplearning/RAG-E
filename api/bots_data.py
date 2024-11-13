@@ -1,12 +1,13 @@
 import os
 import json
 
-from config import users_bots_path, bot_owns_to_path
+from config import users_bots_path, bot_owns_to_path, clients_path
 
 
 bots = dict()
 users_bots = dict()
 bot_owns_to = dict()
+clients = []
 
 # Loading users_bots database
 if os.path.isfile(users_bots_path):
@@ -23,3 +24,11 @@ if os.path.isfile(bot_owns_to_path):
 else:
     with open(bot_owns_to_path, "w") as json_file:
         json.dump({}, json_file)
+
+# Loading customers database.
+if os.path.isfile(clients_path):
+    with open(clients_path, "r") as json_file:
+        clients = json.load(json_file)
+else:
+    with open(clients_path, "w") as json_file:
+        json.dump([], json_file)

@@ -5,11 +5,12 @@ from fastapi import APIRouter
 from config import bots_data_path
 from utils.checking import is_bot, is_user_bots_owner
 from status_messages import bot_launched_before, bot_not_found, bots_not_users
-from models import BotIdModel, WishesModel, StatusModel, DeleteStopBotModel, UsersBotsModel
+from models import BotIdModel, WishesModel, StatusModel, DeleteStopBotModel, UsersBotsModel, AddRemoveOwnerModel
 from utils.files import getting_files
-from bots_data import bots, users_bots
+from bots_data import bots, users_bots, bot_owns_to
 
 from rage import RAG
+
 
 router = APIRouter()
 
@@ -66,3 +67,29 @@ async def get_users_bots(user_id: str) -> UsersBotsModel:
         bots_ids = users_bots[user_id]
 
     return UsersBotsModel(bots_ids=bots_ids)
+
+
+@router.post("/add_owner")
+async def add_owner_to_bot(body: AddRemoveOwnerModel) -> StatusModel:
+    status = "success"
+    if is_bot(bot_id=body.bot_id):
+        if is_user_bots_owner(user_id=body.bot_owner_user_id, bot_id=body.bot_id):
+            bot_owns_to[body.bot_id].append(body.new_owner_user_id)
+        else:
+            status = bots_not_users
+    else:
+        status = bot_not_found
+    return StatusModel(status=status)
+
+
+@router.delete("/remove_owner")
+async def remove_bots_owner(body: AddRemoveOwnerModel) -> StatusModel:
+    status = "success"
+    if is_bot(bot_id=body.bot_id):
+        if is_user_bots_owner(user_id=body.bot_owner_user_id, bot_id=body.bot_id):
+            bot_owns_to[body.bot_id].remove(body.new_owner_user_id)
+        else:
+            status = bots_not_users
+    else:
+        status = bot_not_found
+    return StatusModel(status=status)

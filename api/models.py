@@ -31,3 +31,17 @@ class DeleteStopBotModel(BotIdModel):
 
 class UsersBotsModel(BaseModel):
     bots_ids: list = []
+
+
+class AddRemoveOwnerModel(BaseModel):
+    bot_id: str
+    bot_owner_user_id: str
+    new_owner_user_id: str
+
+
+class UserIdModel(BaseModel):
+    user_id: str
+
+
+class RemoveCustomerModel(UserIdModel):
+    admin_id: str

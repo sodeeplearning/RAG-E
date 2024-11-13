@@ -6,6 +6,7 @@ from . import prompting
 from . import creating
 from . import transfering
 from . import botmanage
+from . import clients
 
 from config import bots_data_path, users_bots_path, bot_owns_to_path
 from utils.files import *
@@ -23,6 +24,7 @@ router.include_router(prompting.router)
 router.include_router(creating.router)
 router.include_router(transfering.router)
 router.include_router(botmanage.router)
+router.include_router(clients.router)
 
 
 @router.on_event("startup")
