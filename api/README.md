@@ -72,7 +72,8 @@ Usage example:
 ```html request
 Input:
     {
-        "bot_id", BOT_ID_HASH_STRING
+        "user_id": USER ID
+        "bot_id": BOT_ID_HASH_STRING
     }
 
 Output:

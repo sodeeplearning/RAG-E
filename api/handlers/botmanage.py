@@ -5,7 +5,7 @@ from fastapi import APIRouter
 from config import bots_data_path
 from utils.checking import is_bot, is_user_bots_owner
 from status_messages import bot_launched_before, bot_not_found, bots_not_users
-from models import BotIdModel, WishesModel, StatusModel, DeleteStopBotModel, UsersBotsModel, AddRemoveOwnerModel
+from models import WishesModel, StatusModel, DeleteStopBotModel, UsersBotsModel, AddRemoveOwnerModel
 from utils.files import getting_files
 from bots_data import bots, users_bots, bot_owns_to
 
@@ -16,7 +16,7 @@ router = APIRouter()
 
 
 @router.post("/launch_bot")
-async def launch_bot(body: BotIdModel) -> StatusModel:
+async def launch_bot(body: DeleteStopBotModel) -> StatusModel:
     bot_id = body.bot_id
     status = "success"
 
@@ -26,9 +26,12 @@ async def launch_bot(body: BotIdModel) -> StatusModel:
         if not is_bot(bot_id):
             status = bot_not_found
         else:
-            users_path = join(bots_data_path, bot_id)
-            users_files = getting_files(users_path)
-            bots[bot_id] = RAG(users_files)
+            if is_user_bots_owner(user_id=body.user_id, bot_id=bot_id):
+                users_path = join(bots_data_path, bot_id)
+                users_files = getting_files(users_path)
+                bots[bot_id] = RAG(users_files)
+            else:
+                status = bots_not_users
 
     return StatusModel(status=status)
 
@@ -53,7 +56,10 @@ async def add_wishes(body: WishesModel) -> StatusModel:
     status = "success"
 
     if is_bot(body.bot_id):
-        await bots[body.bot_id].update_wishes(body.wishes)
+        if is_user_bots_owner(bot_id=body.bot_id, user_id=body.user_id):
+            await bots[body.bot_id].update_wishes(body.wishes)
+        else:
+            status = bots_not_users
     else:
         status = bot_not_found
 

@@ -11,6 +11,7 @@ class BotIdModel(BaseModel):
 
 class WishesModel(BotIdModel):
     wishes: str
+    user_id: str
 
 
 class PromptTextModel(BotIdModel):
