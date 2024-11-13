@@ -72,7 +72,7 @@ async def add_data(body: DeleteStopBotModel, files: List[UploadFile]) -> StatusM
     return StatusModel(status=status)
 
 
-@router.get("/get_bot_data")
+@router.post("/get_bot_data")
 async def get_bot_data(body: DeleteStopBotModel):
     if is_bot(body.bot_id) and is_user_bots_owner(bot_id=body.bot_id, user_id=body.user_id):
         bot_dir = join(bots_data_path, body.bot_id)
