@@ -1,5 +1,8 @@
 # RAG-E
 **Retrieval Augmented Generations** for **Everyone**.
+
+AI framework made for simply-working with [RAG](https://en.wikipedia.org/wiki/Retrieval-augmented_generation) pipelines.
+
 ### Start API with Docker
 To build Dockerfile in /api folder:
 ```bash
