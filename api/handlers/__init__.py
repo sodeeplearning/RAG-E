@@ -8,9 +8,9 @@ from . import transfering
 from . import botmanage
 from . import clients
 
-from config import bots_data_path, users_bots_path, bot_owns_to_path
+from config import bots_data_path, users_bots_path, bot_owns_to_path, clients_path
 from utils.files import *
-from bots_data import bots, users_bots, bot_owns_to
+from bots_data import bots, users_bots, bot_owns_to, clients
 
 from rage import RAG
 
@@ -45,6 +45,10 @@ async def shutdown_event():
     # Updating bot_owns_to database
     with open(bot_owns_to_path, "w") as json_file:
         json.dump(bot_owns_to, json_file)
+
+    # Updating clients database
+    with open(clients_path, "w") as json_file:
+        json.dump(clients, json_file)
 
 
 @router.get("/")
