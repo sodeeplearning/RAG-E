@@ -2,7 +2,7 @@ from fastapi import APIRouter, UploadFile
 from typing import List
 from os.path import join
 
-from models import StatusModel, DeleteStopBotModel
+from models import StatusModel, BotManageModel
 from config import bots_data_path
 from status_messages import bot_not_found, bots_not_users
 from utils.files import zipfiles, getting_files
@@ -20,12 +20,12 @@ vtt_model = VideoToTextFile()
 
 
 @router.post("/upload_videos")
-async def upload_video(body: DeleteStopBotModel, files: List[UploadFile]) -> StatusModel:
-    bot_dir = join(bots_data_path, body.bot_id)
+async def upload_video(user_id: str, bot_id: str, files: List[UploadFile]) -> StatusModel:
+    bot_dir = join(bots_data_path, bot_id)
     status = "success"
 
-    if is_bot(body.bot_id):
-        if is_user_bots_owner(bot_id=body.bot_id, user_id=body.user_id):
+    if is_bot(bot_id):
+        if is_user_bots_owner(bot_id=bot_id, user_id=user_id):
             for current_file in files:
                 file_name = current_file.filename
                 saving_path = join(bot_dir, file_name)
@@ -39,7 +39,7 @@ async def upload_video(body: DeleteStopBotModel, files: List[UploadFile]) -> Sta
 
                 vtt_model(video_file=saving_path, text_saving_path=text_saving_path)
 
-            bots[body.bot_id] = RAG(getting_files(bot_dir))
+            bots[bot_id] = RAG(getting_files(bot_dir))
         else:
             status = bots_not_users
     else:
@@ -49,12 +49,12 @@ async def upload_video(body: DeleteStopBotModel, files: List[UploadFile]) -> Sta
 
 
 @router.post("/add_data")
-async def add_data(body: DeleteStopBotModel, files: List[UploadFile]) -> StatusModel:
-    bot_dir = join(bots_data_path, body.bot_id)
+async def add_data(user_id: str, bot_id: str, files: List[UploadFile]) -> StatusModel:
+    bot_dir = join(bots_data_path, bot_id)
     status = "success"
 
-    if is_bot(body.bot_id):
-        if is_user_bots_owner(bot_id=body.bot_id, user_id=body.user_id):
+    if is_bot(bot_id):
+        if is_user_bots_owner(bot_id=bot_id, user_id=user_id):
             for current_file in files:
                 file_name = current_file.filename
                 saving_path = join(bot_dir, file_name)
@@ -63,7 +63,7 @@ async def add_data(body: DeleteStopBotModel, files: List[UploadFile]) -> StatusM
                     file_content = await current_file.read()
                     saving_file.write(file_content)
 
-            bots[body.bot_id] = RAG(getting_files(bot_dir))
+            bots[bot_id] = RAG(getting_files(bot_dir))
         else:
             status = bots_not_users
     else:
@@ -73,7 +73,7 @@ async def add_data(body: DeleteStopBotModel, files: List[UploadFile]) -> StatusM
 
 
 @router.post("/get_bot_data")
-async def get_bot_data(body: DeleteStopBotModel):
+async def get_bot_data(body: BotManageModel):
     if is_bot(body.bot_id) and is_user_bots_owner(bot_id=body.bot_id, user_id=body.user_id):
         bot_dir = join(bots_data_path, body.bot_id)
         user_files = getting_files(bot_dir)

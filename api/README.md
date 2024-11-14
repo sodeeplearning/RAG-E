@@ -1,6 +1,5 @@
 # RAG-E API Documentation
 
-## Content:
 
 ### [Creating](#creating)
 - [Create bot](#create-bot)
@@ -23,7 +22,11 @@
 - [Prompt text-text](#prompt-text)
 - [Prompt text-voice](#prompt-voice)
 
-## Creating
+### [Clients](#clients)
+- [Add customer](#add-customer)
+- [Remove customer](#remove-customer)
+
+# Creating
 
 ### Create bot
 Create bot from user id.
@@ -64,7 +67,7 @@ Output:
 ```
 
 
-## Bot Manage
+# Bot Manage
 
 ### Launch bot
 Launch created bot 
@@ -133,8 +136,8 @@ Usage example:
 Input:
     {
         "bot_id": BOT_ID_HASH_STRING,
-        "bot_owner_user_id": USER ID of existing owner.
-        "new_owner_user_id": USER ID of new owner.
+        "bot_owner_user_id": USER ID of existing owner,
+        "new_owner_user_id": USER ID of new owner
     }
 
 Output:
@@ -185,7 +188,7 @@ Output:
 ```
 
 
-## Transfer
+# Transfer
 
 ### Upload videos.
 Add video files to a created bot.
@@ -195,10 +198,8 @@ POST /api/upload_videos
 Usage example:
 ```html request
 Input:
-    {
-        bot_id: BOT_ID_HASH_STRING
-        user_id: USER ID
-    }
+    bot_id: BOT_ID_HASH_STRING
+    user_id: USER ID
     files: list of files to upload
 
 Output:
@@ -216,10 +217,8 @@ POST /api/add_data
 Usage example:
 ```html request
 Input:
-    {
-        bot_id: BOT_ID_HASH_STRING
-        user_id: USER ID
-    }
+    bot_id: BOT_ID_HASH_STRING
+    user_id: USER ID
     files: list of files to upload
 
 Output:
@@ -248,7 +247,7 @@ Output:
 
 # Prompting
 
-## Prompt text
+### Prompt text
 Get text answer from text prompt.
 ```html request
 POST /api/prompt/text
@@ -269,7 +268,7 @@ Output:
     }
 ```
 
-## Prompt voice
+### Prompt voice
 Get voice answer from text prompt.
 ```html request
 POST /api/prompt/voice
@@ -285,4 +284,44 @@ Input:
 
 Output:
     .wav file - answer from the model.
+```
+
+# Clients
+
+### Add customer
+Add customer to a customer database.
+```html request
+POST /api/add_customer
+```
+Usage example:
+```html request
+Input:
+{
+    "user_id": USER ID of new customer,
+    "admin_id": ADMIN_PASSWORD
+}
+
+Output:
+{
+    "status": "success"
+}
+```
+
+### Remove customer
+Remove customer from a customer database.
+```html request
+DELETE /api/remove_customer
+```
+Usage example:
+```html request
+Input:
+{
+    "user_id": USER ID of removing customer,
+    "admin_id": ADMIN_PASSWORD
+}
+
+Output:
+{
+    "status": "success"
+}
 ```

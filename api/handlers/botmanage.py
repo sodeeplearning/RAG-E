@@ -5,7 +5,7 @@ from fastapi import APIRouter
 from config import bots_data_path
 from utils.checking import is_bot, is_user_bots_owner
 from status_messages import bot_launched_before, bot_not_found, bots_not_users
-from models import WishesModel, StatusModel, DeleteStopBotModel, UsersBotsModel, AddRemoveOwnerModel
+from models import WishesModel, StatusModel, BotManageModel, UsersBotsModel, AddRemoveOwnerModel
 from utils.files import getting_files
 from bots_data import bots, users_bots, bot_owns_to
 
@@ -16,7 +16,7 @@ router = APIRouter()
 
 
 @router.post("/launch_bot")
-async def launch_bot(body: DeleteStopBotModel) -> StatusModel:
+async def launch_bot(body: BotManageModel) -> StatusModel:
     bot_id = body.bot_id
     status = "success"
 
@@ -37,7 +37,7 @@ async def launch_bot(body: DeleteStopBotModel) -> StatusModel:
 
 
 @router.post("/stop_bot")
-async def stop_bot(body: DeleteStopBotModel) -> StatusModel:
+async def stop_bot(body: BotManageModel) -> StatusModel:
     status = "success"
 
     if is_bot(body.bot_id):

@@ -26,7 +26,7 @@ class CreatingBotResponseModel(BotIdModel):
     status: str = "success"
 
 
-class DeleteStopBotModel(BotIdModel):
+class BotManageModel(BotIdModel):
     user_id: str
 
 
@@ -44,5 +44,5 @@ class UserIdModel(BaseModel):
     user_id: str
 
 
-class RemoveCustomerModel(UserIdModel):
+class CustomerModel(UserIdModel):
     admin_id: str

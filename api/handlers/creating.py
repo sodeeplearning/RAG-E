@@ -7,10 +7,9 @@ from typing import List
 from hashlib import sha256
 from datetime import datetime
 
-
 from utils.checking import is_bot, is_customer, is_user_bots_owner
 from config import bots_data_path
-from models import StatusModel, CreatingBotResponseModel, DeleteStopBotModel
+from models import StatusModel, CreatingBotResponseModel, BotManageModel
 
 from status_messages import not_customer, bot_not_found, bots_not_users
 from bots_data import bots, users_bots, bot_owns_to
@@ -44,11 +43,11 @@ async def create_bot(user_id: str, files: List[UploadFile]) -> CreatingBotRespon
 
         return CreatingBotResponseModel(bot_id=bot_id)
 
-    return CreatingBotResponseModel(bot_id=None, status=not_customer)
+    return CreatingBotResponseModel(bot_id="Error!", status=not_customer)
 
 
 @router.delete("/delete_bot")
-async def delete_bot(body: DeleteStopBotModel) -> StatusModel:
+async def delete_bot(body: BotManageModel) -> StatusModel:
     status = "success"
 
     if is_bot(body.bot_id):

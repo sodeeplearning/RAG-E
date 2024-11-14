@@ -10,7 +10,7 @@ from . import clients
 
 from config import bots_data_path, users_bots_path, bot_owns_to_path, clients_path
 from utils.files import *
-from bots_data import bots, users_bots, bot_owns_to, clients
+from bots_data import bots, users_bots, bot_owns_to, clients_database
 
 from rage import RAG
 
@@ -48,7 +48,7 @@ async def shutdown_event():
 
     # Updating clients database
     with open(clients_path, "w") as json_file:
-        json.dump(clients, json_file)
+        json.dump(clients_database, json_file)
 
 
 @router.get("/")
