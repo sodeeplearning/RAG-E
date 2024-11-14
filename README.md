@@ -3,6 +3,8 @@
 
 AI framework made for simply-working with [RAG](https://en.wikipedia.org/wiki/Retrieval-augmented_generation) pipelines.
 
+![RAG architecture](https://en.wikipedia.org/wiki/File:RAG_diagram.svg)
+
 ### Start using RAG-E tutorial
 Install repo to your project directory via git clone:
 ```bash
