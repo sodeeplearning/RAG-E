@@ -3,6 +3,8 @@
 
 AI framework made for simply-working with [RAG](https://en.wikipedia.org/wiki/Retrieval-augmented_generation) pipelines.
 
+![RAG architecture](https://blogs.nvidia.com/wp-content/uploads/2023/11/Retrieval-Augmented-Generation-RAG-KV-1.jpg)
+
 ### Start using RAG-E tutorial
 Install repo to your project directory via git clone:
 ```bash

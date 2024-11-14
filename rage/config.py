@@ -1,6 +1,9 @@
+from torch.cuda import is_available
+
 # General config.
 delete_files = True
-use_gpu = False
+use_cuda = True
+use_gpu = use_cuda * is_available()
 
 # RAG config
 llm_name = "owl/t-lite:latest"
