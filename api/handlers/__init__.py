@@ -6,10 +6,11 @@ from . import prompting
 from . import creating
 from . import transfering
 from . import botmanage
+from . import clients
 
-from config import bots_data_path, users_bots_path, bot_owns_to_path
+from config import bots_data_path, users_bots_path, bot_owns_to_path, clients_path
 from utils.files import *
-from bots_data import bots, users_bots, bot_owns_to
+from bots_data import bots, users_bots, bot_owns_to, clients_database
 
 from rage import RAG
 
@@ -23,6 +24,7 @@ router.include_router(prompting.router)
 router.include_router(creating.router)
 router.include_router(transfering.router)
 router.include_router(botmanage.router)
+router.include_router(clients.router)
 
 
 @router.on_event("startup")
@@ -43,6 +45,10 @@ async def shutdown_event():
     # Updating bot_owns_to database
     with open(bot_owns_to_path, "w") as json_file:
         json.dump(bot_owns_to, json_file)
+
+    # Updating clients database
+    with open(clients_path, "w") as json_file:
+        json.dump(clients_database, json_file)
 
 
 @router.get("/")
