@@ -11,7 +11,7 @@ from utils.checking import is_bot, is_user_bots_owner
 from bots_data import bots
 
 from rage import RAG
-from rage import VideoToTextFile
+from rage.vtt.files import VideoToTextFile
 
 
 router = APIRouter()
