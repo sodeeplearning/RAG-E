@@ -15,12 +15,15 @@
 
 ### [Transfer](#transfer)
 - [Upload videos](#upload-videos)
+- [Upload audios](#upload-audios)
 - [Adding data](#adding-data)
 - [Get bot data](#get-bot-data)
 
 ### [Prompting](#prompting)
-- [Prompt text-text](#prompt-text)
-- [Prompt text-voice](#prompt-voice)
+- [Prompt text-text](#prompt-text-from-text)
+- [Prompt text-voice](#prompt-voice-from-text)
+- [Prompt voice-text](#prompt-text-from-voice)
+- [Prompt voice-voice](#prompt-voice-from-voice)
 
 ### [Clients](#clients)
 - [Add customer](#add-customer)
@@ -33,7 +36,7 @@ Create bot from user id.
 ```html request
 POST /api/create_bot
 ```
-Usage example:
+Usage guide:
 ```html request
 Input:
     user_id: USER ID
@@ -52,7 +55,7 @@ Delete created bot.
 ```html request
 DELETE /api/delete_bot
 ```
-Usage example:
+Usage guide:
 ```html request
 Input:
     {
@@ -74,7 +77,7 @@ Launch created bot
 ```html request
 POST /api/launch_bot
 ```
-Usage example:
+Usage guide:
 ```html request
 Input:
     {
@@ -93,7 +96,7 @@ Stop launched bot.
 ```html request
 POST /api/stop_bot
 ```
-Usage example:
+Usage guide:
 ```html request
 Input:
 {
@@ -112,7 +115,7 @@ Add wishes to a created bot.
 ```html request
 POST /api/add_wishes
 ```
-Usage example:
+Usage guide:
 ```html request
 Input:
     {
@@ -131,7 +134,7 @@ Add owner to a created bot.
 ```html request
 POST /api/add_owner
 ```
-Usage example:
+Usage guide:
 ```html request
 Input:
     {
@@ -151,7 +154,7 @@ Remove owner from created bot.
 ```html request
 DELETE /api/remove_owner
 ```
-Usage example:
+Usage guide:
 ```html request
 Input:
     {
@@ -172,7 +175,7 @@ Get user's bots' ids from user id.
 ```html request
 GET /api/get_users_bots
 ```
-Usage example:
+Usage guide:
 ```html request
 Input:
     user_id: User ID
@@ -195,7 +198,7 @@ Add video files to a created bot.
 ```html request
 POST /api/upload_videos
 ```
-Usage example:
+Usage guide:
 ```html request
 Input:
     bot_id: BOT_ID_HASH_STRING
@@ -208,13 +211,32 @@ Output:
     }
 ```
 
+### Upload audios
+Add audio files to a created bot.
+```html request
+POST /api/upload_audios
+```
+Usage guide:
+```html request
+Input:
+    bot_id: BOT_ID_HASH_STRING
+    user_id: USER ID
+    files: list of files to upload
+
+Output:
+    {
+        "status": "success"
+    }
+```
+
+
 ### Adding data
 Add files to an existing bot. 
 ```html request
 POST /api/add_data
 ```
 
-Usage example:
+Usage guide:
 ```html request
 Input:
     bot_id: BOT_ID_HASH_STRING
@@ -233,7 +255,7 @@ Get files from existing bot.
 POST /api/get_bot_data
 ```
 
-Usage example:
+Usage guide:
 ```html request
 Input:
     {
@@ -247,13 +269,13 @@ Output:
 
 # Prompting
 
-### Prompt text
+### Prompt text from text
 Get text answer from text prompt.
 ```html request
 POST /api/prompt/text
 ```
 
-Usage example:
+Usage guide:
 ```html request
 Input:
     {
@@ -268,13 +290,13 @@ Output:
     }
 ```
 
-### Prompt voice
+### Prompt voice from text
 Get voice answer from text prompt.
 ```html request
 POST /api/prompt/voice
 ```
 
-Usage example:
+Usage guide:
 ```html request
 Input:
     {
@@ -286,6 +308,41 @@ Output:
     .wav file - answer from the model.
 ```
 
+### Prompt text from voice
+Get text answer from voice prompt.
+```html request
+POST /api/prompt/from_voice/text
+```
+
+Usage guide:
+```html request
+Input:
+    bot_id: BOT_ID_HASH_STRING
+    file: Audio file with voice prompt.
+
+Output:
+    {
+        "text": Model's answer
+    }
+```
+
+### Prompt voice from voice
+Get voice answer from voice prompt.
+```html request
+POST /api/prompt/from_voice/voice
+```
+
+Usage guide:
+```html request
+Input:
+    bot_id: BOT_ID_HASH_STRING
+    file: Audio file with voice prompt.
+
+Output:
+    file: Audio file with voice answer.
+```
+
+
 # Clients
 
 ### Add customer
@@ -293,7 +350,7 @@ Add customer to a customer database.
 ```html request
 POST /api/add_customer
 ```
-Usage example:
+Usage guide:
 ```html request
 Input:
 {
@@ -312,7 +369,7 @@ Remove customer from a customer database.
 ```html request
 DELETE /api/remove_customer
 ```
-Usage example:
+Usage guide:
 ```html request
 Input:
 {

@@ -21,13 +21,18 @@ print(assistant("What was in these documents?"))
 
 ## API
 Read [API Documentation](https://github.com/sodeeplearning/RAG-E/blob/main/api/README.md) to get more information.
+
 ### Start API locally
+Before starting API download and launch Ollama from [Official Source](https://ollama.com/download)
+
+
 Starting API via uvicorn:
 ```bash
 git clone https://github.com/sodeeplearning/RAG-E
 cd RAG-E
 pip install -r api/requirements.txt
 pip install -r rage/requirements.txt
+ollama pull owl/t-lite:latest
 uvicorn api/main:api
 ```
 
@@ -40,5 +45,17 @@ docker build . -f api/Dockerfile -t rage-api
 docker run -it --gpus=all rage-api  
 ```
 
-### Team info
+## For partnership
+If you are interested in this project, but you need to get personal offer:
+
+**Be brave** to text the team: ```vitaliy.petreev@gmail.com```
+
+## For contributors 💘
+1) Create fork from ```main``` branch
+2) Make your changes
+3) Create pull request from your fork to ```dev``` branch with description of implemented changes
+4) Wait for approving
+5) **You're officially part of the project!**
+
+## Team info
 [Vitaliy Petreev](https://github.com/sodeeplearning) - HEAD of the project.

@@ -11,16 +11,17 @@ from utils.checking import is_bot, is_user_bots_owner
 from bots_data import bots
 
 from rage import RAG
-from rage import VideoToTextFile
+from rage.vtt.files import VideoToTextFile, AudioToTextFile
 
 
 router = APIRouter()
 
 vtt_model = VideoToTextFile()
+att_model = AudioToTextFile()
 
 
 @router.post("/upload_videos")
-async def upload_video(user_id: str, bot_id: str, files: List[UploadFile]) -> StatusModel:
+async def upload_videos(user_id: str, bot_id: str, files: List[UploadFile]) -> StatusModel:
     bot_dir = join(bots_data_path, bot_id)
     status = "success"
 
@@ -38,6 +39,35 @@ async def upload_video(user_id: str, bot_id: str, files: List[UploadFile]) -> St
                     saving_file.write(file_content)
 
                 vtt_model(video_file=saving_path, text_saving_path=text_saving_path)
+
+            bots[bot_id] = RAG(getting_files(bot_dir))
+        else:
+            status = bots_not_users
+    else:
+        status = bot_not_found
+
+    return StatusModel(status=status)
+
+
+@router.post("/upload_audios")
+async def upload_audios(user_id: str, bot_id: str, files: List[UploadFile]) -> StatusModel:
+    bot_dir = join(bots_data_path, bot_id)
+    status = "success"
+
+    if is_bot(bot_id):
+        if is_user_bots_owner(bot_id=bot_id, user_id=user_id):
+            for current_file in files:
+                file_name = current_file.filename
+                saving_path = join(bot_dir, file_name)
+
+                text_file_name = file_name.split(".")[0] + ".txt"
+                text_saving_path = join(bot_dir, text_file_name)
+
+                with open(saving_path, "wb") as saving_file:
+                    file_content = await current_file.read()
+                    saving_file.write(file_content)
+
+                att_model.audio_to_text_file(audio_file=saving_path, text_saving_path=text_saving_path)
 
             bots[bot_id] = RAG(getting_files(bot_dir))
         else:
