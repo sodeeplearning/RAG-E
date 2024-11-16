@@ -1,3 +1,4 @@
+from os import remove
 from os.path import join
 
 from fastapi import APIRouter, UploadFile
@@ -52,5 +53,25 @@ async def prompt_text_from_voice(bot_id: str, audio_file: UploadFile) -> TextMod
             saving_file.write(content)
 
         text = stt_model(audio_file=saving_path)
+        remove(saving_path)
+
         return await prompt_text_from_voice(bot_id=bot_id, text=text)
+    return bot_not_found
+
+
+@router.post("/prompt/from_voice/voice")
+async def prompt_voice_from_voice(bot_id: str, audio_file: UploadFile):
+    if is_bot(bot_id=bot_id):
+        audio_file_name = audio_file.filename
+        bot_dir = join(bots_data_path, bot_id)
+        saving_path = join(bot_dir, audio_file_name)
+
+        with open(saving_path, "wb") as saving_file:
+            content = await audio_file.read()
+            saving_file.write(content)
+
+        text = stt_model(audio_file=saving_path)
+        remove(saving_path)
+
+        return await prompt_voice(bot_id=bot_id, text=text)
     return bot_not_found
