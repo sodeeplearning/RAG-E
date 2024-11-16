@@ -49,7 +49,7 @@ class VideoToTextFile:
         :param text_saving_path: Path to a saving file.
         :param delete_after_process: 'True' if you don't need to store video and audio files.
         """
-        self.video_to_text_file(video_file, text_saving_path)
+        self.video_to_text_file(video_file, text_saving_path, delete_after_process=delete_after_process)
 
 
 class AudioToTextFile:
@@ -79,3 +79,17 @@ class AudioToTextFile:
 
         if delete_after_process:
             os.remove(audio_file)
+
+    def __call__(self,
+                 audio_file: str,
+                 text_saving_path: str = None,
+                 delete_after_process: bool = delete_files):
+        """Get text file from audio file.
+
+        :param audio_file: Path to an audio file.
+        :param text_saving_path: Path to a saving file.
+        :param delete_after_process: 'True' if you don't need to store audio files.
+        """
+        return self.audio_to_text_file(audio_file=audio_file,
+                                       text_saving_path=text_saving_path,
+                                       delete_after_process=delete_after_process)
