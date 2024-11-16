@@ -45,18 +45,18 @@ async def prompt_voice(body: PromptTextModel):
 async def prompt_text_from_voice(bot_id: str, audio_file: UploadFile) -> TextModel:
     if is_bot(bot_id=bot_id):
         audio_file_name = audio_file.filename
-        bot_dir = join(bots_data_path, bot_id)
-        saving_path = join(bot_dir, audio_file_name)
 
-        with open(saving_path, "wb") as saving_file:
+        with open(audio_file_name, "wb") as saving_file:
             content = await audio_file.read()
             saving_file.write(content)
 
-        text = stt_model(audio_file=saving_path)
-        remove(saving_path)
+        text = stt_model(audio_file=audio_file_name)
+        remove(audio_file_name)
 
-        return await prompt_text_from_voice(bot_id=bot_id, text=text)
-    return bot_not_found
+        model_answer = await bots[bot_id](text)
+        return TextModel(text=model_answer)
+
+    return TextModel(text=bot_not_found)
 
 
 @router.post("/prompt/from_voice/voice")
@@ -73,5 +73,11 @@ async def prompt_voice_from_voice(bot_id: str, audio_file: UploadFile):
         text = stt_model(audio_file=saving_path)
         remove(saving_path)
 
-        return await prompt_voice(bot_id=bot_id, text=text)
+        model_answer = await bots[bot_id](text)
+
+        return Response(
+            content=tts_model(model_answer),
+            media_type="audio/wav"
+        )
+
     return bot_not_found
