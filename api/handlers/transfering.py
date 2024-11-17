@@ -11,13 +11,12 @@ from utils.checking import is_bot, is_user_bots_owner
 from bots_data import bots
 
 from rage import RAG
-from rage.vtt.files import VideoToTextFile, AudioToTextFile
+from rage.vtt.files import VideoAudioToTextFile
 
 
 router = APIRouter()
 
-vtt_model = VideoToTextFile()
-att_model = AudioToTextFile()
+vatt_model = VideoAudioToTextFile()
 
 
 @router.post("/upload_videos")
@@ -38,7 +37,7 @@ async def upload_videos(user_id: str, bot_id: str, files: List[UploadFile]) -> S
                     file_content = await current_file.read()
                     saving_file.write(file_content)
 
-                vtt_model(video_file=saving_path, text_saving_path=text_saving_path)
+                vatt_model.video_to_text_file(video_file=saving_path, text_saving_path=text_saving_path)
 
             bots[bot_id] = RAG(getting_files(bot_dir))
         else:
@@ -67,7 +66,7 @@ async def upload_audios(user_id: str, bot_id: str, files: List[UploadFile]) -> S
                     file_content = await current_file.read()
                     saving_file.write(file_content)
 
-                att_model.audio_to_text_file(audio_file=saving_path, text_saving_path=text_saving_path)
+                vatt_model.audio_to_text_file(audio_file=saving_path, text_saving_path=text_saving_path)
 
             bots[bot_id] = RAG(getting_files(bot_dir))
         else:
