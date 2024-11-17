@@ -24,7 +24,9 @@ Read [API Documentation](https://github.com/sodeeplearning/RAG-E/blob/main/api/R
 
 ### Start API locally
 Before starting API download and launch Ollama from [Official Source](https://ollama.com/download)
-
+```bash
+ollama run --keepalive 24h owl/t-lite:latest
+```
 
 Starting API via uvicorn:
 ```bash

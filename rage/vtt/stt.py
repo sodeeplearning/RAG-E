@@ -1,6 +1,6 @@
-from transformers import pipeline
+from transformers import pipeline, AutoProcessor, AutoModelForSpeechSeq2Seq
 
-from rage.config import use_gpu, stt_model
+from rage.config import use_gpu, stt_model, torch_dtype
 
 
 class SpeechRecognition:
@@ -12,10 +12,24 @@ class SpeechRecognition:
         :param model_name: STT model's name.
         """
         self.device = "cuda" if use_cuda else "cpu"
-        self.model = pipeline(
+
+        self.processor = AutoProcessor.from_pretrained(model_name)
+
+        self.model = AutoModelForSpeechSeq2Seq.from_pretrained(
+            pretrained_model_name_or_path=model_name,
+            torch_dtype=torch_dtype,
+            low_cpu_mem_usage=True
+        ).to(self.device)
+
+        self.pipe = pipeline(
             task="automatic-speech-recognition",
-            model=model_name,
-            device=self.device
+            model=self.model,
+            device=self.device,
+            torch_dtype=torch_dtype,
+            tokenizer=self.processor.tokenizer,
+            feature_extractor=self.processor.feature_extractor,
+            chunk_length_s=30,
+            batch_size=16
         )
 
     def __call__(self, audio_file: str, *args, **kwargs) -> str:
@@ -24,4 +38,4 @@ class SpeechRecognition:
         :param audio_file: Audio file path.
         :return: Text of audio file.
         """
-        return self.model(audio_file)["text"]
+        return self.pipe(audio_file)["text"]

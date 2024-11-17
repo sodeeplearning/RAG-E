@@ -25,7 +25,8 @@ class RAG:
 
         self.qa_chain = RetrievalQA.from_chain_type(
             llm,
-            retriever=knowledge_base.as_retriever())
+            retriever=knowledge_base.as_retriever()
+        )
 
         self.wishes = ". " + extra_wishes
 

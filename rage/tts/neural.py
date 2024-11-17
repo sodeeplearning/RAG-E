@@ -2,9 +2,9 @@ import os
 
 import torchaudio
 import torch
-from transformers import AutoTokenizer, VitsModel
+from transformers import AutoTokenizer, AutoModel
 
-from rage.config import use_gpu, delete_files, audio_speed
+from rage.config import use_gpu, delete_files, audio_speed, torch_dtype
 
 
 class ToSpeech:
@@ -23,7 +23,9 @@ class ToSpeech:
 
         self.device = "cuda" if use_cuda else "cpu"
         self.usage_case = f"facebook/mms-tts-{language}"
-        self.model = VitsModel.from_pretrained(self.usage_case).to(self.device)
+        self.model = AutoModel.from_pretrained(
+            self.usage_case,
+        ).to(self.device)
 
         self.tokenizer = AutoTokenizer.from_pretrained(self.usage_case)
         self.default_sample_rate = 16000
